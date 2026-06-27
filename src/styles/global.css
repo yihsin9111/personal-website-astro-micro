@@ -48,13 +48,13 @@
   body {
     @apply font-sans antialiased;
     @apply flex flex-col;
-    @apply bg-neutral-100 dark:bg-neutral-900;
+    @apply bg-[#FEFAF3] dark:bg-neutral-900;
     @apply text-black/75 dark:text-white/75;
   }
 
   header {
     @apply fixed left-0 right-0 top-0 z-50 py-6;
-    @apply bg-neutral-100/75 dark:bg-neutral-900/75;
+    @apply bg-[#FEFAF3]/75 dark:bg-neutral-900/75;
     @apply saturate-200 backdrop-blur-xs;
   }
 
@@ -133,6 +133,13 @@ pre {
   --astro-code-token-string-expression: #bf7db6;
   --astro-code-token-punctuation: #8996a3;
   --astro-code-token-link: #8d85ff;
+}
+
+/* Hide dark mode toggle on homepage */
+html:has([data-homepage]) #light-theme-button,
+html:has([data-homepage]) #dark-theme-button,
+html:has([data-homepage]) #system-theme-button {
+  display: none;
 }
 
 /* copy code button on codeblocks */
