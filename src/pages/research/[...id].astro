@@ -1,0 +1,77 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import FormattedDate from "@components/FormattedDate.astro";
+import { readingTime } from "@lib/utils";
+import BackToPrevious from "@components/BackToPrevious.astro";
+import Link from "@components/Link.astro";
+import TableOfContents from "@components/TableOfContents.astro";
+
+export async function getStaticPaths() {
+  const papers = (await getCollection("research"))
+    .filter((paper) => !paper.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return papers.map((paper) => ({
+    params: { id: paper.id },
+    props: paper,
+  }));
+}
+type Props = CollectionEntry<"research">;
+
+const paper = Astro.props;
+const { Content, headings } = await render(paper);
+---
+
+<Layout title={paper.data.title} description={paper.data.description}>
+  <Container>
+    <div class="animate">
+      <BackToPrevious href="/research">Back to research</BackToPrevious>
+    </div>
+    <div class="animate my-10 space-y-1">
+      <div class="flex items-center gap-1.5">
+        <div class="font-base text-sm">
+          <FormattedDate date={paper.data.date} />
+        </div>
+        {paper.data.venue && (
+          <>
+            &bull;
+            <div class="font-base text-sm italic">{paper.data.venue}</div>
+          </>
+        )}
+        {paper.body && (
+          <>
+            &bull;
+            <div class="font-base text-sm">
+              {readingTime(paper.body)}
+            </div>
+          </>
+        )}
+      </div>
+      <h1 class="text-3xl font-semibold text-black dark:text-white">
+        {paper.data.title}
+      </h1>
+      {
+        (paper.data.paperURL || paper.data.codeURL) && (
+          <nav class="flex gap-1">
+            {paper.data.paperURL && (
+              <Link href={paper.data.paperURL} external>
+                paper
+              </Link>
+            )}
+            {paper.data.paperURL && paper.data.codeURL && <span>/</span>}
+            {paper.data.codeURL && (
+              <Link href={paper.data.codeURL} external>
+                code
+              </Link>
+            )}
+          </nav>
+        )
+      }
+    </div>
+    <TableOfContents headings={headings} />
+    <article class="animate">
+      <Content />
+    </article>
+  </Container>
+</Layout>

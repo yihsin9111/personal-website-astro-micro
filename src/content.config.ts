@@ -21,7 +21,21 @@ const projects = defineCollection({
     draft: z.boolean().optional(),
     demoURL: z.string().optional(),
     repoURL: z.string().optional(),
+    cover: z.string().optional(),
   }),
 });
 
-export const collections = { blog, projects };
+const research = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: "./src/content/research" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.coerce.date(),
+    draft: z.boolean().optional(),
+    venue: z.string().optional(),
+    paperURL: z.string().optional(),
+    codeURL: z.string().optional(),
+  }),
+});
+
+export const collections = { blog, projects, research };
