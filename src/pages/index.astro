@@ -50,10 +50,9 @@ const linkedin = SOCIALS.find((s) => s.NAME === "Linkedln")?.HREF ?? "#";
         </div>
         <div class="min-w-0 flex-1">
           {posts.length > 0 ? (
-            <ul class="space-y-4 border-l border-black/20 pl-5 dark:border-white/20">
+            <ul class="space-y-4">
               {posts.map((post) => (
-                <li class="relative">
-                  <span class="absolute -left-[0.32rem] top-[0.38rem] h-2 w-2 rounded-full bg-black/25 dark:bg-white/30" />
+                <li>
                   <div class="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-3">
                     <span class="flex-shrink-0 text-xs tabular-nums text-gray-400">
                       <FormattedDate date={post.data.date} />
@@ -127,46 +126,80 @@ const linkedin = SOCIALS.find((s) => s.NAME === "Linkedln")?.HREF ?? "#";
   </Container>
 
   <!-- ─── 4. DESK SCENE ─────────────────────────────────────────────────── -->
-  <section class="relative w-full overflow-hidden" style="aspect-ratio: 16/7; min-height: 260px;">
-    <!-- REPLACE WITH IMAGE: put desk illustration at public/images/desk-bg.jpg -->
-    <!-- <div class="absolute inset-0 bg-gray-100 dark:bg-neutral-800 flex items-center justify-center">
-      <span class="text-gray-400 text-xs select-none">desk scene illustration — replace with image</span>
-    </div> -->
+  <!-- overflow-visible so text boxes can extend outside the image bounds -->
+  <section class="relative w-full" style="aspect-ratio: 16/7; min-height: 260px;">
     <img src="/images/desk-bg.jpg" alt="" class="absolute inset-0 w-full h-full object-cover" />
 
-    <!--
-      Desk objects: put colored PNGs in public/images/desk/
-      Each is grayscale by default, colors on hover (CSS only, no JS)
-    -->
+    <!-- ── MONITOR: colored at rest → GIF + text on hover ────────────── -->
+    <!-- Provide: public/images/desk/monitor.gif -->
+    <div class="group/monitor absolute cursor-pointer" style="top: 12%; left: 38%; width: 30%;">
+      <!-- Static PNG fades out on hover -->
+      <img
+        src="/images/desk/monitor.png"
+        alt="monitor"
+        class="w-full transition-opacity duration-300 group-hover/monitor:opacity-0"
+      />
+      <!-- GIF fades in on hover -->
+      <img
+        src="/images/desk/monitor.gif"
+        alt=""
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 w-full opacity-0 transition-opacity duration-300 group-hover/monitor:opacity-100"
+      />
+      <!-- Text box above — EDIT the text inside the <span> -->
+      <div class="pointer-events-none absolute bottom-full left-0 right-0 mb-2 translate-y-1 text-center opacity-0 transition-all duration-300 group-hover/monitor:translate-y-0 group-hover/monitor:opacity-100">
+        <span class="inline-block rounded bg-white/90 px-2 py-1 text-xs shadow">
+          monitor text here
+        </span>
+      </div>
+    </div>
 
-    <!-- lamp: REPLACE WITH IMAGE public/images/desk/lamp.png -->
-    <img
-      src="/images/desk/lamp.png"
-      alt="lamp"
-      class="desk-object absolute"
-      style="top: 15%; left: 12%; width: 8%;"
-    />
-    <!-- monitor: REPLACE WITH IMAGE public/images/desk/monitor.png -->
-    <img
-      src="/images/desk/monitor.png"
-      alt="monitor"
-      class="desk-object absolute"
-      style="top: 8%; left: 38%; width: 18%;"
-    />
-    <!-- mug: REPLACE WITH IMAGE public/images/desk/mug.png -->
-    <img
-      src="/images/desk/mug.png"
-      alt="mug"
-      class="desk-object absolute"
-      style="bottom: 28%; right: 28%; width: 7%;"
-    />
-    <!-- pencil cup: REPLACE WITH IMAGE public/images/desk/pencil-cup.png -->
-    <img
-      src="/images/desk/pencil-cup.png"
-      alt="pencil cup"
-      class="desk-object absolute"
-      style="bottom: 24%; right: 18%; width: 6%;"
-    />
+    <!-- ── MUG: colored at rest → GIF + text above on hover ──────────── -->
+    <!-- Provide: public/images/desk/mug.gif -->
+    <div class="group/mug absolute cursor-pointer" style="bottom: 28%; right: 12%; width: 25%;">
+      <!-- Static PNG fades out on hover -->
+      <img
+        src="/images/desk/mug.png"
+        alt="mug"
+        class="w-full transition-opacity duration-300 group-hover/mug:opacity-0"
+      />
+      <!-- GIF fades in on hover -->
+      <img
+        src="/images/desk/mug.gif"
+        alt=""
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 w-full opacity-0 transition-opacity duration-300 group-hover/mug:opacity-100"
+      />
+      <!-- Text box above — EDIT the text inside the <span> -->
+      <div class="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 translate-y-1 whitespace-nowrap opacity-0 transition-all duration-300 group-hover/mug:translate-y-0 group-hover/mug:opacity-100">
+        <span class="inline-block rounded bg-white/90 px-2 py-1 text-xs shadow">
+          mug text here
+        </span>
+      </div>
+    </div>
+
+    <!-- ── LAMP: click toggle for glow on/off ───────────────────────── -->
+    <!-- Provide: public/images/desk/lamp-lit.png (same crop as lamp.png, glow effect) -->
+    <div class="absolute" style="top: 10%; left: 15%; width: 40%;">
+      <img src="/images/desk/lamp.png" alt="lamp" class="w-full" />
+      <!-- Glow overlay — opacity controlled by JS toggle -->
+      <img
+        src="/images/desk/lamp-lit.png"
+        alt=""
+        aria-hidden="true"
+        id="lamp-glow"
+        class="pointer-events-none absolute inset-0 w-full opacity-0 transition-opacity duration-500"
+      />
+      <!-- Toggle button — adjust top/left (% of the lamp div) to hit the right spot on the image -->
+      <button
+        id="lamp-toggle"
+        aria-label="Toggle lamp"
+        aria-pressed="false"
+        class="absolute flex size-6 cursor-pointer items-center justify-center rounded-full border border-black/20 bg-white/80 text-xs shadow-sm transition-colors hover:bg-white"
+        style="top: 86%; left: 4%;"
+      >⏻</button>
+    </div>
+    
   </section>
 
   <!-- ─── 5. CONTACT ────────────────────────────────────────────────────── -->
@@ -197,6 +230,25 @@ const linkedin = SOCIALS.find((s) => s.NAME === "Linkedln")?.HREF ?? "#";
 
 </Layout>
 
+<script>
+  function initLampToggle() {
+    const glow = document.getElementById("lamp-glow");
+    const btn = document.getElementById("lamp-toggle");
+    if (!glow || !btn) return;
+
+    let lit = false;
+    btn.addEventListener("click", () => {
+      lit = !lit;
+      (glow as HTMLElement).style.opacity = lit ? "0.75" : "0";
+      btn.setAttribute("aria-pressed", String(lit));
+      btn.style.color = lit ? "#f59e0b" : "";
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", initLampToggle);
+  document.addEventListener("astro:after-swap", initLampToggle);
+</script>
+
 <script is:inline>
   // Force light mode on the homepage — runs immediately after preloadTheme()
   // and after each view-transition swap back to this page.
@@ -220,12 +272,3 @@ const linkedin = SOCIALS.find((s) => s.NAME === "Linkedln")?.HREF ?? "#";
   });
 </script>
 
-<style>
-  .desk-object {
-    filter: grayscale(100%);
-    transition: filter 0.3s;
-  }
-  .desk-object:hover {
-    filter: grayscale(0%);
-  }
-</style>
