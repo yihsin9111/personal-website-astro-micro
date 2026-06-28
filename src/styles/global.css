@@ -54,8 +54,8 @@
 
   header {
     @apply fixed left-0 right-0 top-0 z-50 py-6;
-    @apply bg-[#FEFAF3]/75 dark:bg-neutral-900/75;
-    @apply saturate-200 backdrop-blur-xs;
+    background-color: var(--header-bg);
+    color: var(--header-text);
   }
 
   main {
@@ -108,6 +108,14 @@ pre {
 }
 
 :root {
+  /* ── Set your heading color here ── */
+  --heading-color: #09090b;
+
+  /* ── Set your header/navbar background here ── */
+  --header-bg: #FEFAF3;
+  /* ── Set your header/navbar text color here ── */
+  --header-text: #1C1917;
+
   --astro-code-foreground: #09090b;
   --astro-code-background: #fafafa;
   --astro-code-token-comment: #a19595;

@@ -30,6 +30,14 @@ export const RESEARCH: Metadata = {
     "A collection of my research papers and publications.",
 };
 
+export const ABOUT: Metadata = {
+  TITLE: "About",
+  DESCRIPTION: "About Yi-Hsin Chang.",
+};
+
+// ── Paste your Google Drive CV share link here ──
+export const CV_URL = "https://drive.google.com/YOUR_CV_LINK_HERE";
+
 export const SOCIALS: Socials = [
   {
     NAME: "Linkedln",

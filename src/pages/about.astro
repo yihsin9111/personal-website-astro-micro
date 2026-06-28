@@ -1,0 +1,31 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import { ABOUT } from "@consts";
+---
+
+<Layout title={ABOUT.TITLE} description={ABOUT.DESCRIPTION}>
+  <Container>
+    <div class="py-8 space-y-8">
+
+      <!-- Photo: put your photo at public/images/me.jpg -->
+      <img
+        src="/images/me.jpg"
+        alt="Yi-Hsin Chang"
+        class="mx-auto block h-48 w-48 rounded-full object-cover shadow"
+      />
+
+      <!-- Bio paragraph — EDIT this text -->
+      <article class="animate prose prose-neutral max-w-full">
+        <p>
+          Hi, I'm Yi-Hsin Chang. I'm currently a MSECE student at CMU,
+          interested in efficient ML and computer architecture.
+        </p>
+        <p>
+          <!-- Add more paragraphs here -->
+        </p>
+      </article>
+
+    </div>
+  </Container>
+</Layout>
